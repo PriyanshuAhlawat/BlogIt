@@ -9,8 +9,11 @@ const cors = require('cors')
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var postsRouter = require('./routes/posts');
+const port =  3001
 var app = express();
-
+app.listen(port,()=>{
+  console.log(`app listening at ${port}`)
+})
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -57,7 +60,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
-
+app.use('/', function(req, res, next) {
+  next();
+});
 app.use('/api/posts', postsRouter);
 app.use('/', indexRouter);
 

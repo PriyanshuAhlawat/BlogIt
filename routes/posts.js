@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Post = require('../models/post')
-
+const Comment = require('../models/comment')
 
 // fetch all documents from the "Post" collection in the MongoDB database, and sort them
 router.get('/', async (req, res, next) => {
@@ -25,6 +25,15 @@ router.get('/:id',async(req,res,next)=>{
     },
   });
 })
+// viewing comments on a post
+router.get("/posts/:id/comments", async (req, res) => {
+  try {
+    const comments = await Comment.find({ post: req.params.id });
+    res.send({ comments });
+  } catch (error) {
+    res.status(400).send({ error: error.message });
+  }
+});
 /* POST post */
 router.post('/', async (req, res, next) => {
     const { title, author, content, tags } = req.body;
@@ -44,6 +53,23 @@ router.post('/', async (req, res, next) => {
       message: 'Created post',
       data: { post },
     });
+  });
+// posting new comments on a post
+  router.post("/posts/:id/comments", async (req, res) => {
+    try {
+      const post = await Post.findById(req.params.id);
+      const comment = new Comment({
+        author: req.body.author,
+        content: req.body.content,
+        post: post._id
+      });
+      await comment.save();
+      post.comments.push(comment._id);
+      await post.save();
+      res.status(201).send({ comment });
+    } catch (error) {
+      res.status(400).send({ error: error.message });
+    }
   });
 
 /* PUT post */
@@ -73,5 +99,6 @@ router.delete('/:id', async (req, res, next) => {
       data: {},
     });
   });
+  
   
   module.exports = router;
