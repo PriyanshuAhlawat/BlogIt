@@ -55,7 +55,7 @@ router.post('/', async (req, res, next) => {
     });
   });
 // posting new comments on a post
-  router.post("/posts/:id/comments", async (req, res) => {
+  router.post("/:id/comments", async (req, res) => {
     try {
       const post = await Post.findById(req.params.id);
       const comment = new Comment({
@@ -71,6 +71,19 @@ router.post('/', async (req, res, next) => {
       res.status(400).send({ error: error.message });
     }
   });
+
+  // getting the post by id and incrementing the vote as per user
+  router.post("/:id/votes", async(req,res,next)=>{
+    try {
+      const post = await Post.findById(req.params.id)
+      post.votes += 1
+      await post.save()
+      res.json(post)
+      
+    } catch (error) {
+      res.status(500).json({message: err.message})
+    }
+  })
 
 /* PUT post */
 router.put('/:id', async (req, res, next) => {
@@ -88,7 +101,7 @@ router.put('/:id', async (req, res, next) => {
       data: { post },
     });
   });
-  
+
   /* DELETE post */
 router.delete('/:id', async (req, res, next) => {
    // Mongo stores the id as `_id` by default

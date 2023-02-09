@@ -10,7 +10,8 @@ const Postschema = new Schema({
     comments: [{
       type: Schema.Types.ObjectId,
       ref: "Comment"
-    }]   
+    }] , 
+    votes: {type: Number, default: 0 } 
 })
 
 // presave middleware to update the createdAt parameter
