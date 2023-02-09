@@ -8,6 +8,7 @@ A Blogging Web Application built using Node.js, MongoDB, and Express.js
 - User can view all posts and individual posts
 - User can leave comments on posts
 - User can view all comments on a post
+- User can run the application in a containerized environment by using the docker image
 
 ## Procedure Followed
 
