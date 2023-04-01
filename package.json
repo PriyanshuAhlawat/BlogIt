@@ -16,7 +16,9 @@
     "http-errors": "~1.6.3",
     "jade": "^1.11.0",
     "mongoose": "^6.8.4",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "newrelic": "^9.14.1",
+    "prom-client": "^14.2.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"

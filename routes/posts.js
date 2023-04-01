@@ -25,15 +25,15 @@ router.get('/:id',async(req,res,next)=>{
     },
   });
 })
-// viewing comments on a post
-router.get("/posts/:id/comments", async (req, res) => {
-  try {
-    const comments = await Comment.find({ post: req.params.id });
-    res.send({ comments });
-  } catch (error) {
-    res.status(400).send({ error: error.message });
-  }
-});
+// // viewing comments on a post
+// router.get("/posts/:id/comments", async (req, res) => {
+//   try {
+//     const comments = await Comment.find({ post: req.params.id });
+//     res.send({ comments });
+//   } catch (error) {
+//     res.status(400).send({ error: error.message });
+//   }
+// });
 /* POST post */
 router.post('/', async (req, res, next) => {
     const { title, author, content, tags } = req.body;
@@ -55,35 +55,35 @@ router.post('/', async (req, res, next) => {
     });
   });
 // posting new comments on a post
-  router.post("/:id/comments", async (req, res) => {
-    try {
-      const post = await Post.findById(req.params.id);
-      const comment = new Comment({
-        author: req.body.author,
-        content: req.body.content,
-        post: post._id
-      });
-      await comment.save();
-      post.comments.push(comment._id);
-      await post.save();
-      res.status(201).send({ comment });
-    } catch (error) {
-      res.status(400).send({ error: error.message });
-    }
-  });
+  // router.post("/:id/comments", async (req, res) => {
+  //   try {
+  //     const post = await Post.findById(req.params.id);
+  //     const comment = new Comment({
+  //       author: req.body.author,
+  //       content: req.body.content,
+  //       post: post._id
+  //     });
+  //     await comment.save();
+  //     post.comments.push(comment._id);
+  //     await post.save();
+  //     res.status(201).send({ comment });
+  //   } catch (error) {
+  //     res.status(400).send({ error: error.message });
+  //   }
+  // });
 
-  // getting the post by id and incrementing the vote as per user
-  router.post("/:id/votes", async(req,res,next)=>{
-    try {
-      const post = await Post.findById(req.params.id)
-      post.votes += 1
-      await post.save()
-      res.json(post)
+  // // getting the post by id and incrementing the vote as per user
+  // router.post("/:id/votes", async(req,res,next)=>{
+  //   try {
+  //     const post = await Post.findById(req.params.id)
+  //     post.votes += 1
+  //     await post.save()
+  //     res.json(post)
       
-    } catch (error) {
-      res.status(500).json({message: err.message})
-    }
-  })
+  //   } catch (error) {
+  //     res.status(500).json({message: err.message})
+  //   }
+  // })
 
 /* PUT post */
 router.put('/:id', async (req, res, next) => {
